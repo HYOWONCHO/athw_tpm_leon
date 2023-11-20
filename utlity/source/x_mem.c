@@ -272,10 +272,34 @@ static void x_memfree_s(void *addr)
     addr = NULL:
 }
 
-static void x_memcpy_s(void *dest, const char *src, int sz_cplen)
+static int x_memcpy_s(void *dest, int dmax, const char *src, int smax)
 {
-    memcpy(dest, src, sz_cplen);
-    ((char *)dest)[sz_cplen] = '\0';
+    uint8_t *dp;
+    const uint8_t *sp;
+
+    dp = dest;
+    sp = src;
+
+    X_RET_VAL_IF_FAIL(dp!=NULL, -1);
+    X_RET_VAL_IF_FAIL(sp!=NULL, -1);
+
+    X_RET_VAL_IF_FAIL(dmax>0, -1);
+    X_RET_VAL_IF_FAIL(smax>0, -1);
+
+    if(smax > dmax) {
+        x_mem_prim_set(dp, dmax, 0);
+        return -1;
+    }
+
+    if(((dp > sp) && (dp < (sp+smax))) ||
+            ((sp > dp) && (sp<dp_max))) {
+        x_mem_prim_set(dp, dmax, 0);
+        return -1;
+    }
+
+    x_mem_prim_move(dp, sp, smax);
+
+    return 0;
 }
 
 
@@ -353,7 +377,7 @@ int x_memcpy(void *dst, int in_sizebytes, const void *src, int count)
         goto done;
     }
 
-    x_memcpy_s(dst, src, count);
+    x_memcpy_s(dst, count, src, count);
 
 done:
 
