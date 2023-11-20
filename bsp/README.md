@@ -1,6 +1,6 @@
-#bsp (Board Support Package)
+# BSP (Board Support Package)
 
-BSP contains of the TPM driver and External interface protocol which communicate with HOST or TPM device
+**BSP** contains of the TPM driver and External interface protocol which communicate with HOST or TPM device
 
 
 LIST OF PRIMARY FEATURE:
