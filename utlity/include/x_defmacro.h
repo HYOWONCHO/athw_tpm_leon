@@ -1,6 +1,7 @@
 #ifndef _athw_defmacro_h
 #define _athw_defmacro_h
 
+
 #ifdef __cplusplus
 extern "C" {}
 #endif

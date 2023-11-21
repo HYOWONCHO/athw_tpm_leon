@@ -17,7 +17,11 @@
  */
 
 #define LINE_LEN 16
-void x_mem_print_bin(const uint8_t *title, const uint8_t* buffer, uint32_t length)
+void x_mem_print_bin(
+        const uint8_t *title /**< [in] display name strings */, 
+        const uint8_t* buffer /**< [in] print buffer  */, 
+        uint32_t length /**< [in] length of buffer */
+        )
 {
     uint32_t i, sz;
     
@@ -56,3 +60,28 @@ void x_mem_print_bin(const uint8_t *title, const uint8_t* buffer, uint32_t lengt
         length -= sz;
     }
 }
+
+/**
+ * \fn void print_byte_string(u8 *data, size_t count)
+ * \brief Print a byte string in hexdecimal format, 16-bytes per line.
+ *
+ * \param data		byte string to be printed
+ * \param count		number of bytes to be printed
+ */
+void print_byte_string(u8 *data, size_t count)
+{
+	int i, print_newline = 0;
+
+	for (i = 0; i < count; i++) {
+		printf(" %02x", data[i]);
+		print_newline = (i % 16 == 15);
+		if (print_newline)
+			putc('\n');
+	}
+	/* Avoid duplicated newline at the end */
+	if (!print_newline)
+		putc('\n');
+}
+
+
+
